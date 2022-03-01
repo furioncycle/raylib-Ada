@@ -78,7 +78,13 @@ package body text is
    begin
       DrawTextEx (F, ctext, position, fontSize, spacing, tint);
    end draw_ex;
-
+   
+   function get_glyph_index_ex(F: Font; codepoint: int) return int is
+      function get_glyph_index(F: Font; codepoint: int) return int;
+      pragma Import (C, get_glyph_index, "GetGlyphIndex");
+   begin
+      return get_glyph_index (F, codepoint);
+   end get_glyph_index_ex;
    function measure (text : String; fontSize : int) return int is
       function MeasureText (text : Strings.chars_ptr; fontSize : int) return int
          with Import, Convention => C, External_Name => "MeasureText";

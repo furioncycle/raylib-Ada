@@ -808,6 +808,9 @@ package raylib is
       --  Font loading/unloading functions
       function get_font_default return Font;
       pragma Import (C, get_font_default, "GetFontDefault");
+      function get_codepoint(text: chars_ptr; bytesProcessed: int) return int;
+      pragma Import (C, get_codepoint, "GetCodepoint");
+      function get_glyph_index_ex(F: Font; codepoint: int) return int;
       --  Text drawing functions
       procedure draw_FPS (x, y : int);
       pragma Import (C, draw_FPS, "DrawFPS");

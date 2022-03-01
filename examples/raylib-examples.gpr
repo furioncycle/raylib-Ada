@@ -9,7 +9,8 @@ project raylib.examples is
       "core_3d_camera_first_person.adb",
       "core_input_gamepad.adb",
       "textures_rectangle.adb",
-      "input_box.adb"
+      "input_box.adb",
+      "rectangle_bounds.adb"
    );
 
    for Source_Dirs use ("core","textures","text");
