@@ -104,6 +104,14 @@ package body text is
    begin
       return MeasureTextEx (f, ctext, fontSize, spacing);
    end measure_ex;
+
+   function get_codepoint_ex(text: chars_ptr; bytesProcessed: int) return Character is
+      function get_codepoint(text: chars_ptr; bytesProcessed: int) return int;
+      pragma Import (C, get_codepoint, "GetCodepoint");
+   begin 
+      return Character'Val(get_codepoint(text, bytesProcessed));
+   end get_codepoint_ex;
+
 end text; ---
 
    package body core is

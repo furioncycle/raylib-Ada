@@ -402,14 +402,22 @@ package raylib is
        img : Image;              -- Character image data, named image in raylib.h but conflict with the type
    end record
       with Convention => C_Pass_By_Copy;
-
+   
+   type GlyphInfo is record 
+      value: int;       -- Character Value(unicode)
+      offsetX : int;    -- Character offset X when drawing 
+      offsetY : int;    -- Character offset Y when drawing
+      advanceX : int;   -- Character advance position X 
+      -- Image Imge
+   end record 
+      with Convention => C_Pass_By_Copy;
    type Font  is record
       baseSize : int;         -- Base size (default chars height)
       charsCount : int;       -- Number of characters
       texture  : Texture2D;   -- Character texture atlas
       recs : access Rectangle;  -- Characters rectangles in texture
       chars : access CharInfo; -- Characters info data
-      --  CharInfo *chars;
+      glyphs : access GlyphInfo;
    end record
       with Convention => C_Pass_By_Copy;
 
@@ -808,9 +816,7 @@ package raylib is
       --  Font loading/unloading functions
       function get_font_default return Font;
       pragma Import (C, get_font_default, "GetFontDefault");
-      function get_codepoint(text: chars_ptr; bytesProcessed: int) return int;
-      pragma Import (C, get_codepoint, "GetCodepoint");
-      function get_glyph_index_ex(F: Font; codepoint: int) return int;
+            function get_glyph_index_ex(F: Font; codepoint: int) return int;
       --  Text drawing functions
       procedure draw_FPS (x, y : int);
       pragma Import (C, draw_FPS, "DrawFPS");
@@ -834,6 +840,12 @@ package raylib is
       --  RLAPI int GetNextCodepoint(const char *text, int *count);
       --  NOTE: 0x3f(`?`) is returned on failure,
       --  `count` will hold the total number of bytes processed
+      procedure draw_text_code_point(f: Font; codepoint: int; position: Vector2; fontSize: Float; tint: Color)
+         with 
+            Import, 
+            Convention => C,
+            External_Name => "DrawTextCodePoint";
+      function get_codepoint_ex(text: chars_ptr; bytesProcessed: int) return Character;
    end text;
 
    ---
